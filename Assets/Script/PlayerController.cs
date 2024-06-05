@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         HandleAttackAndFire();
+        HandleMovement();
     }
 
     private void HandleAttackAndFire()
@@ -54,7 +55,8 @@ public class PlayerController : MonoBehaviour
 
             if (input.fire)
             {
-                animator.SetTrigger("Attack");
+                // 블렌드 트리의 Attack 상태로 진입
+                animator.SetFloat("AttackSpeed", 1f);
                 FireBullet();
                 input.fire = false;
             }
@@ -63,7 +65,7 @@ public class PlayerController : MonoBehaviour
         {
             if (isAttackingIdle)
             {
-                // AttackIdle 애니메이션을 중지합니다.
+                // Attack 상태를 중지하고 블렌드 트리의 AttackIdle 상태로 전환
                 animator.SetBool("IsAttackingIdle", false);
                 isAttackingIdle = false;
 
@@ -74,6 +76,22 @@ public class PlayerController : MonoBehaviour
                 mainCamera.Priority = 1;
                 attackCamera.Priority = 0;
             }
+        }
+    }
+
+    private void HandleMovement()
+    {
+        bool isWalking = input.move != Vector2.zero;
+
+        if (isAttackingIdle)
+        {
+            // AttackIdle 상태에서 이동할 때 AttackWalk 상태로 전환
+            animator.SetFloat("AttackSpeed", isWalking ? 0.5f : 0f);
+        }
+        else
+        {
+            // Idle Walk Run Blend 상태의 이동 애니메이션 처리
+            animator.SetBool("isWalking", isWalking);
         }
     }
 
