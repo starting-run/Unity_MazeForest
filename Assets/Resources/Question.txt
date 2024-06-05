@@ -1,1 +1,1 @@
-question(null, , 5)
+question(quiz, , 5)
