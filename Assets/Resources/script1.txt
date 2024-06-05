@@ -1,0 +1,4 @@
+dialog(char1, "누구세요", 3)
+dialog(char2, "알아서 뭐하게", 3)
+dialog(char1, "누구시냐구요", 3)
+dialog(char2, "궁금하면 500원", 3)
