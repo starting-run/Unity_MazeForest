@@ -1,0 +1,6 @@
+camera(1)
+wait(3)
+show(true, 5)
+image(logo)
+wait(3)
+camera(0)

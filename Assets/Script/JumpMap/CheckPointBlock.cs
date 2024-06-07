@@ -8,6 +8,9 @@ public class CheckPointBlock : MonoBehaviour
 
      void OnTriggerEnter(Collider other) 
     {
-        ori = transform.position;        
+        if (other.gameObject.CompareTag("Player"))
+        {
+            ori = transform.position;
+        }
     }
 }

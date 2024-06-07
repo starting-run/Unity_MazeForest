@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
 
     private bool isAttackingIdle = false;
     private Camera mainCameraComponent;
+    public ScenarioEngine engine;
 
     [Header("Aim")]
     [SerializeField]
@@ -27,6 +28,9 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         mainCameraComponent = Camera.main;
+
+        string script = Resources.Load<TextAsset>("GameStart").ToString();
+        StartCoroutine(engine.PlayScript(script));
     }
 
     private void Update()

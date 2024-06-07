@@ -9,7 +9,10 @@ public class DeathBlock : MonoBehaviour
     
    void OnTriggerEnter(Collider other) 
     {
-        StartCoroutine("Do");
+        if (other.gameObject.CompareTag("Player"))
+        {
+            StartCoroutine("Do");
+        }
     }
     IEnumerator Do() {
         player.GetComponent<ThirdPersonController>().enabled = false;       

@@ -1,0 +1,9 @@
+#Event01
+char1,11111
+char2,2222
+char3,33333
+
+#Event02
+char3,가가가가
+char2,나나나나
+char1,다다다다
