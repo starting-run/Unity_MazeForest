@@ -11,7 +11,6 @@ public class CoroutineMovementNPC2 : MonoBehaviour
     }
 
     public Transform target;
-    public float speed = 5.0f;
 
     public Kind kind = Kind.ToTarget;
 
@@ -29,8 +28,6 @@ public class CoroutineMovementNPC2 : MonoBehaviour
         {
             return;
         }
-
-        navMeshAgent.speed = speed;
 
         // 인트로로 인해 11초뒤 따라오는 npc 동작
         if (kind == Kind.Player) StartCoroutine(DelayedStartCoroutine());

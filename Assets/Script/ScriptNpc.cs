@@ -13,6 +13,7 @@ public class ScriptNpc : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player") && justOneCheck == false)
         {
+            GameManager.Instance.FindNPC++; //엔딩에서 찾은 NPC수를 표시하기 위함
             string script = Resources.Load<TextAsset>(filename).ToString();
             StartCoroutine(engine.PlayScript(script));
             justOneCheck = true;

@@ -6,6 +6,10 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    private AudioSource audioSource;
+    public AudioClip Success;
+    public AudioClip Failure;
+
     public float playTime = 400;
     private float elapsedTime = 0;
 
@@ -20,6 +24,9 @@ public class GameManager : MonoBehaviour
     public ScenarioEngine engine;
     private string script;
 
+    [Header("엔딩에 표시할 요소")]
+    public int FindNPC = 0;
+    public int FailCount = 0; //문제를 실패한 횟수
 
     private void Awake()
     {
@@ -27,7 +34,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        
+        audioSource = gameObject.AddComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -56,13 +63,24 @@ public class GameManager : MonoBehaviour
 
     public void Target_Success()
     {
+        PlaySound(Success);
         script = Resources.Load<TextAsset>("Success").ToString();
         StartCoroutine(engine.PlayScript(script));
     }
 
     public void Target_Fail()
     {
+        PlaySound(Failure);
         script = Resources.Load<TextAsset>("Fail").ToString();
         StartCoroutine(engine.PlayScript(script));
+        FailCount++;
+    }
+
+    public void PlaySound(AudioClip clip)
+    {
+        if (audioSource != null && clip != null)
+        {
+            audioSource.PlayOneShot(clip);
+        }
     }
 }
