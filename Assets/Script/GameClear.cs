@@ -7,15 +7,17 @@ public class GameClear : MonoBehaviour
 {
     public ScenarioEngine engine;
     public AudioClip congBgm;
+    public bool justOneCheck = false;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") && justOneCheck == false)
         {
             GameManager.Instance.PlaySound(congBgm);
             GameManager.Instance.GameClear();
             string script = Resources.Load<TextAsset>("GameClear").ToString();
             StartCoroutine(engine.PlayScript(script));
+            justOneCheck = true;
         }
     }
 }

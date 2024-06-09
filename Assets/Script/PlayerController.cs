@@ -35,6 +35,22 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.Instance.isGameOver)
+        {
+            return;
+        }
+
+        //기본 상태
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
+        //LeftALT 클릭동안 마우스 활성화
+        if (Input.GetKey(KeyCode.LeftAlt))
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+
         HandleAttackAndFire();
         HandleMovement();
     }
