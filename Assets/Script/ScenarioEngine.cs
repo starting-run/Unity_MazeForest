@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -8,6 +8,7 @@ using System.Collections.Generic;
 public class ScenarioEngine : MonoBehaviour
 {
     public Canvas canvas;
+    public Canvas worldCanvas;
     public GameObject[] cameras;
     public string[] objectsName;
 
@@ -30,9 +31,9 @@ public class ScenarioEngine : MonoBehaviour
         }
 
         front = canvas.transform.Find("Front").GetComponent<Image>();
-        //video = canvas.transform.Find("Video").GetComponent<RawImage>();
+        video = worldCanvas.transform.Find("Video").GetComponent<RawImage>();
         //text = canvas.transform.Find("Text").GetComponent<TextMeshProUGUI>();
-        //player = transform.GetComponent<VideoPlayer>();
+        player = transform.GetComponent<VideoPlayer>();
         dialog = canvas.transform.Find("Dialog").GetComponent<Canvas>();
         if (objectsName.Length > 0)
         {
@@ -49,7 +50,6 @@ public class ScenarioEngine : MonoBehaviour
             string[] tokens = Parsing(token);
             string fun = tokens[0];
 
-            // ±âÁ¸ ÄÚ·çÆ¾ ÁßÁö
             if (currentCoroutine != null)
             {
                 StopCoroutine(currentCoroutine);

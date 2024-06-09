@@ -29,7 +29,7 @@ public class CoroutineMovementNPC2 : MonoBehaviour
             return;
         }
 
-        // 인트로로 인해 11초뒤 따라오는 npc 동작
+        // 인트로로 인해 10초뒤 따라오는 npc 동작
         if (kind == Kind.Player) StartCoroutine(DelayedStartCoroutine());
     }
 
@@ -45,7 +45,7 @@ public class CoroutineMovementNPC2 : MonoBehaviour
 
     IEnumerator DelayedStartCoroutine()
     {
-        yield return new WaitForSeconds(11);
+        yield return new WaitForSeconds(10);
         StartCoroutine(MoveToPlayer());
     }
 

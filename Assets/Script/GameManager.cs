@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.AI;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,7 +15,10 @@ public class GameManager : MonoBehaviour
     private float elapsedTime = 0;
 
     public bool isGameOver = false; // 게임 오버 상태
+    public bool isGameClear = false; // 게임 오버 상태
 
+    [SerializeField]
+    private GameObject RemainingTime;
     [SerializeField]
     private TextMeshProUGUI timeText;
     // Start is called before the first frame update
@@ -34,24 +38,47 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+        StartCoroutine(DelayedStartCoroutine());
         audioSource = gameObject.AddComponent<AudioSource>();
+    }
+
+    IEnumerator DelayedStartCoroutine()
+    {
+        yield return new WaitForSeconds(10);
+        StartCoroutine(ShowInfoUI());
+    }
+
+    IEnumerator ShowInfoUI()
+    {
+        RemainingTime.SetActive(true);
+        yield return null;
     }
 
     // Update is called once per frame
     void Update()
     {
-        elapsedTime += Time.deltaTime; //경과시간
-
-        float remainingTime = GameManager.Instance.playTime - elapsedTime;
-        int minutes = Mathf.FloorToInt(remainingTime / 60);
-        int seconds = Mathf.FloorToInt(remainingTime % 60);
-
-        timeText.text = $"{minutes:D2}:{seconds:D2}";
-
-        if (remainingTime <= 0)
+        if (!isGameClear)
         {
-            isGameOver = true;
+            elapsedTime += Time.deltaTime; //경과시간
+
+            float remainingTime = GameManager.Instance.playTime - elapsedTime;
+            int minutes = Mathf.FloorToInt(remainingTime / 60);
+            int seconds = Mathf.FloorToInt(remainingTime % 60);
+
+            timeText.text = $"{minutes:D2}:{seconds:D2}";
+
+            if (remainingTime <= 0)
+            {
+                isGameOver = true;
+            }
         }
+
+    }
+
+    public void GameClear()
+    {
+        isGameClear = true;
+        RemainingTime.SetActive(false);
     }
 
     private void GameOver()
