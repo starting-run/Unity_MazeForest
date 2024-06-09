@@ -11,12 +11,13 @@ public class CoroutineMovementNPC2 : MonoBehaviour
     }
 
     public Transform target;
-
+    public string animationName;
     public Kind kind = Kind.ToTarget;
 
     public float aniSpeed = 0;
     private Animator animator;
     private NavMeshAgent navMeshAgent;
+    private Coroutine moveToPlayerCoroutine;
     Vector3 old = Vector3.zero;
 
     void Start()
@@ -30,7 +31,14 @@ public class CoroutineMovementNPC2 : MonoBehaviour
         }
 
         // 인트로로 인해 10초뒤 따라오는 npc 동작
-        if (kind == Kind.Player) StartCoroutine(DelayedStartCoroutine());
+        if (kind == Kind.Player)
+        {
+            if (moveToPlayerCoroutine != null)
+            {
+                StopCoroutine(moveToPlayerCoroutine);
+            }
+            moveToPlayerCoroutine = StartCoroutine(DelayedStartCoroutine());
+        }
     }
 
     void Update()
@@ -46,7 +54,7 @@ public class CoroutineMovementNPC2 : MonoBehaviour
     IEnumerator DelayedStartCoroutine()
     {
         yield return new WaitForSeconds(10);
-        StartCoroutine(MoveToPlayer());
+        moveToPlayerCoroutine = StartCoroutine(MoveToPlayer());
     }
 
     IEnumerator MoveToPlayer()
@@ -67,5 +75,16 @@ public class CoroutineMovementNPC2 : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    public void StopMovementAndPlayAnimation()
+    {
+        if (moveToPlayerCoroutine != null)
+        {
+            StopCoroutine(moveToPlayerCoroutine);
+            moveToPlayerCoroutine = null;
+        }
+
+        animator.Play(animationName);
     }
 }

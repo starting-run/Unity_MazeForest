@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour
     [Header("엔딩에 표시할 요소")]
     public int FindNPC = 0;
     public int FailCount = 0; //문제를 실패한 횟수
+    public CoroutineMovementNPC3[] npcs;
+    public CoroutineMovementNPC2 mainNpc;
 
     private void Awake()
     {
@@ -116,6 +118,11 @@ public class GameManager : MonoBehaviour
             failQuestionText.text = "문제를 " + FailCount + "번 틀렸네요.\n다음에는 좀 더 노력해봐요!";
         }
 
+        for (int i = 0;i< npcs.Length;i++)
+        {
+            npcs[i].StopMovementAndPlayAnimation();
+        }
+        mainNpc.StopMovementAndPlayAnimation();
 
         SuccessM.SetActive(true);
         Fail.SetActive(false);

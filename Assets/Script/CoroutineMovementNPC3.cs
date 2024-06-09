@@ -11,12 +11,13 @@ public class CoroutineMovementNPC3 : MonoBehaviour
     }
 
     public Transform target;
-
+    public string animationName;
     public Kind kind = Kind.ToTarget;
 
     public float aniSpeed = 0;
     private Animator animator;
     private NavMeshAgent navMeshAgent;
+    private Coroutine moveToPlayerCoroutine;
     Vector3 old = Vector3.zero;
 
     void Start()
@@ -34,7 +35,11 @@ public class CoroutineMovementNPC3 : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            StartCoroutine(MoveToPlayer());
+            if (moveToPlayerCoroutine != null)
+            {
+                StopCoroutine(moveToPlayerCoroutine);
+            }
+            moveToPlayerCoroutine = StartCoroutine(MoveToPlayer());
         }
     }
 
@@ -64,7 +69,19 @@ public class CoroutineMovementNPC3 : MonoBehaviour
                 yield return null;
             }
 
+
             yield return null;
         }
+    }
+
+    public void StopMovementAndPlayAnimation()
+    {
+        if (moveToPlayerCoroutine != null)
+        {
+            StopCoroutine(moveToPlayerCoroutine);
+            moveToPlayerCoroutine = null;
+        }
+
+        animator.Play(animationName);
     }
 }
