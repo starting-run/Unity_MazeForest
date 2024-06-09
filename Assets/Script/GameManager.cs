@@ -74,7 +74,6 @@ public class GameManager : MonoBehaviour
         yield return null;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!isGameClear && !isGameOver)
@@ -99,9 +98,6 @@ public class GameManager : MonoBehaviour
                 elapsedTime += 285;
             }
         }
-
-
-
     }
 
     public void GameClear()
@@ -110,17 +106,16 @@ public class GameManager : MonoBehaviour
         RemainingTime.SetActive(false);
 
         npcText.text = "총" + FindNPC + "명의 NPC를 찾았어요!";
-        string failText;
 
         if (FailCount == 0)
         {
-            failText = "정말 훌륭해요!";
+            failQuestionText.text = "문제를 모두 한번에 맞췄어요.\n정말 훌륭해요!";
         }
         else
         {
-            failText = "다음에는 좀 더 노력해봐요!";
+            failQuestionText.text = "문제를 " + FailCount + "번 틀렸네요.\n다음에는 좀 더 노력해봐요!";
         }
-        failQuestionText.text = "문제를 " + FailCount + "번 틀렸네요.\n" + failText;
+
 
         SuccessM.SetActive(true);
         Fail.SetActive(false);

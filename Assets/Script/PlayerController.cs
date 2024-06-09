@@ -61,11 +61,10 @@ public class PlayerController : MonoBehaviour
         {
             if (!isAttackingIdle)
             {
-                // AttackIdle 애니메이션을 시작합니다.
                 animator.SetBool("IsAttackingIdle", true);
                 isAttackingIdle = true;
 
-                // UI Canvas 활성화
+                // 에임 활성화
                 uiCanvas.SetActive(true);
 
                 // 시네머신 카메라 전환
@@ -75,7 +74,6 @@ public class PlayerController : MonoBehaviour
 
             if (input.fire)
             {
-                // 블렌드 트리의 Attack 상태로 진입
                 animator.SetFloat("AttackSpeed", 1f);
                 FireBullet();
                 input.fire = false;
@@ -85,11 +83,10 @@ public class PlayerController : MonoBehaviour
         {
             if (isAttackingIdle)
             {
-                // Attack 상태를 중지하고 블렌드 트리의 AttackIdle 상태로 전환
                 animator.SetBool("IsAttackingIdle", false);
                 isAttackingIdle = false;
 
-                // UI Canvas 비활성화
+                // 에임 비활성화
                 uiCanvas.SetActive(false);
 
                 // 시네머신 카메라 전환
@@ -105,12 +102,10 @@ public class PlayerController : MonoBehaviour
 
         if (isAttackingIdle)
         {
-            // AttackIdle 상태에서 이동할 때 AttackWalk 상태로 전환
             animator.SetFloat("AttackSpeed", isWalking ? 0.5f : 0f);
         }
         else
         {
-            // Idle Walk Run Blend 상태의 이동 애니메이션 처리
             animator.SetBool("isWalking", isWalking);
         }
     }
@@ -134,11 +129,11 @@ public class PlayerController : MonoBehaviour
 
         Vector3 direction = (targetPosition - firePoint.position).normalized;
 
-        // 플레이어를 타겟 방향으로 회전시킵니다.
+        // 플레이어를 타겟 방향으로 회전
         Vector3 lookDirection = new Vector3(direction.x, 0, direction.z);
         transform.rotation = Quaternion.LookRotation(lookDirection);
 
-        // 총알을 생성하고 발사합니다.
+        // 총 발사
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.LookRotation(direction));
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         rb.AddForce(direction * bulletSpeed, ForceMode.Impulse);
