@@ -108,7 +108,7 @@ public class ScenarioEngine : MonoBehaviour
     private IEnumerator PlayVideo(string[] tokens)
     {
         string clip = tokens[1];
-        front.enabled = false;
+        //front.enabled = false;
         dialog.enabled = false;
         video.enabled = true;
         player.clip = Resources.Load<VideoClip>(clip);
