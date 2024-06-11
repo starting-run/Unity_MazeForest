@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using Cinemachine;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,13 +13,14 @@ public class GameManager : MonoBehaviour
     private AudioSource audioSource;
     public AudioClip Success;
     public AudioClip Failure;
+    public MainCamera MainCamera;
 
     [Header("게임 진행 시간")]
     public float playTime = 400;
     private float elapsedTime = 0;
 
     [Header("게임 진행 상황 확인")]
-    public bool isGameOver = false; // 게임 오버 상태
+    public bool isGameOver = true; // 게임 오버 상태
     public bool isGameClear = false; // 게임 오버 상태
     public Material defaultSkybox;
     public Material successSkybox;
@@ -48,13 +50,20 @@ public class GameManager : MonoBehaviour
     public CoroutineMovementNPC3[] npcs;
     public CoroutineMovementNPC2 mainNpc;
 
+    [Header("게임 시작 버튼")]
+    public GameObject GameLogo;
+    public GameObject Btn_Start;
+    public GameObject Btn_Setting;
+
+    [Header("게임 설정 관련")]
+    public GameObject SettingPannel;
+
     private void Awake()
     {
         Instance = this;
     }
     void Start()
     {
-        StartCoroutine(DelayedStartCoroutine());
         audioSource = gameObject.AddComponent<AudioSource>();
 
         //팝업UI
@@ -64,11 +73,6 @@ public class GameManager : MonoBehaviour
         failQuestionText = SuccessM.transform.Find("failQuestion").GetComponent<TextMeshProUGUI>();
     }
 
-    IEnumerator DelayedStartCoroutine()
-    {
-        yield return new WaitForSeconds(10);
-        StartCoroutine(ShowInfoUI());
-    }
 
     IEnumerator ShowInfoUI()
     {
@@ -188,5 +192,57 @@ public class GameManager : MonoBehaviour
         {
             audioSource.PlayOneShot(clip);
         }
+    }
+
+    public void ShowBtnUI()
+    {
+        isGameOver = true;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        ShowBtn();
+    }
+
+    public void ShowBtn()
+    {
+        GameLogo.SetActive(true);
+        Btn_Start.SetActive(true);
+        Btn_Setting.SetActive(true);
+    }
+
+    public void HideBtn()
+    {
+        GameLogo.SetActive(false);
+        Btn_Start.SetActive(false);
+        Btn_Setting.SetActive(false);
+    }
+
+    public void Btn_GameStart()
+    {
+        isGameOver = false;
+        StartCoroutine(DelayedModifyBlendSpeeds());
+        HideBtn();
+        mainNpc.RemoteNPCStart();
+        StartCoroutine(ShowInfoUI());
+        string script = Resources.Load<TextAsset>("Btn_GameStart").ToString();
+        StartCoroutine(engine.PlayScript(script));
+    }
+
+    IEnumerator DelayedModifyBlendSpeeds()
+    {
+        yield return new WaitForSeconds(3);
+
+        MainCamera.DelayedModifyBlendSpeed();
+    }
+
+    public void Btn_SettingPannel()
+    {
+        HideBtn();
+        SettingPannel.SetActive(true); 
+    }
+
+    public void Btn_SettingPannelClose()
+    {
+        SettingPannel.SetActive(false);
+        ShowBtn();
     }
 }

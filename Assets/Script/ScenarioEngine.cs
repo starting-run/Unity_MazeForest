@@ -30,7 +30,7 @@ public class ScenarioEngine : MonoBehaviour
             canvasGroup = canvas.gameObject.AddComponent<CanvasGroup>();
         }
 
-        front = canvas.transform.Find("Front").GetComponent<Image>();
+        //front = canvas.transform.Find("Front").GetComponent<Image>();
         video = worldCanvas.transform.Find("Video").GetComponent<RawImage>();
         //text = canvas.transform.Find("Text").GetComponent<TextMeshProUGUI>();
         player = transform.GetComponent<VideoPlayer>();
@@ -126,10 +126,10 @@ public class ScenarioEngine : MonoBehaviour
 
     private IEnumerator DisplayImage(string[] tokens)
     {
-        front.enabled = true;
+        //front.enabled = true;
         //video.enabled = false;
         dialog.enabled = false;
-        front.sprite = Resources.Load<Sprite>(tokens[1]);
+        //front.sprite = Resources.Load<Sprite>(tokens[1]);
         yield return new WaitForSeconds(float.Parse(tokens[2] == "" ? "0" : tokens[2]));
     }
 
@@ -141,7 +141,7 @@ public class ScenarioEngine : MonoBehaviour
     private IEnumerator DisplayDialog(string[] tokens)
     {
         dialog.enabled = true;
-        front.enabled = false;
+        //front.enabled = false;
         //video.enabled = false;
         dialog.transform.Find("Question_Image").GetComponent<Image>().enabled = false;
         string ch = tokens[1];
@@ -152,12 +152,16 @@ public class ScenarioEngine : MonoBehaviour
             dialog.transform.Find("Image").GetComponent<Image>().sprite = Resources.Load<Sprite>(ch);
             dialog.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = text;
             dialog.transform.Find("Text_Center").GetComponent<TextMeshProUGUI>().text = "";
+            dialog.transform.Find("NpcName").GetComponent<Image>().enabled=true;
+            dialog.transform.Find("npcNameT").GetComponent<TextMeshProUGUI>().text = ch;
         }
         else
         {
             dialog.transform.Find("Image").GetComponent<Image>().enabled = false;
             dialog.transform.Find("Text_Center").GetComponent<TextMeshProUGUI>().text = text;
             dialog.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = "";
+            dialog.transform.Find("NpcName").GetComponent<Image>().enabled = false;
+            dialog.transform.Find("npcNameT").GetComponent<TextMeshProUGUI>().text = "";
         }
         yield return new WaitForSeconds(float.Parse(tokens[3] == "" ? "0" : tokens[3]));
     }
@@ -172,6 +176,9 @@ public class ScenarioEngine : MonoBehaviour
 
         dialog.transform.Find("Image").GetComponent<Image>().enabled = false;
         dialog.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = "";
+
+        dialog.transform.Find("NpcName").GetComponent<Image>().enabled = false;
+        dialog.transform.Find("npcNameT").GetComponent<TextMeshProUGUI>().text = "";
         yield return new WaitForSeconds(float.Parse(tokens[3] == "" ? "0" : tokens[3]));
     }
 

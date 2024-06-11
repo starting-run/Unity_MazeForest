@@ -1,6 +1,1 @@
 camera(1)
-wait(3)
-show(true, 5)
-image(logo_only)
-wait(3)
-camera(0)

@@ -31,6 +31,12 @@ public class PlayerController : MonoBehaviour
 
         string script = Resources.Load<TextAsset>("GameStart").ToString();
         StartCoroutine(engine.PlayScript(script));
+        Invoke("ShowBtn", 3); 
+    }
+
+    public void ShowBtn()
+    {
+        GameManager.Instance.ShowBtnUI();
     }
 
     private void Update()
@@ -40,9 +46,11 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        //기본 상태
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        if (GameManager.Instance.isGameOver == false)
+        {//기본 상태
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
 
         //LeftALT 클릭동안 마우스 활성화
         if (Input.GetKey(KeyCode.LeftAlt))

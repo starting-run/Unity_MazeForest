@@ -30,15 +30,6 @@ public class CoroutineMovementNPC2 : MonoBehaviour
             return;
         }
 
-        // 인트로로 인해 10초뒤 따라오는 npc 동작
-        if (kind == Kind.Player)
-        {
-            if (moveToPlayerCoroutine != null)
-            {
-                StopCoroutine(moveToPlayerCoroutine);
-            }
-            moveToPlayerCoroutine = StartCoroutine(DelayedStartCoroutine());
-        }
     }
 
     void Update()
@@ -51,9 +42,13 @@ public class CoroutineMovementNPC2 : MonoBehaviour
         old = transform.position;
     }
 
+    public void RemoteNPCStart()
+    {
+        StartCoroutine(DelayedStartCoroutine());
+    }
     IEnumerator DelayedStartCoroutine()
     {
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(3);
         moveToPlayerCoroutine = StartCoroutine(MoveToPlayer());
     }
 

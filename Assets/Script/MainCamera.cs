@@ -14,14 +14,10 @@ public class MainCamera : MonoBehaviour
     {
         cinemachineBrain = GetComponent<CinemachineBrain>();
         cinemachineBrain.m_DefaultBlend.m_Time = 3f;
-
-        StartCoroutine(DelayedModifyBlendSpeed());
     }
 
-    IEnumerator DelayedModifyBlendSpeed()
+    public void DelayedModifyBlendSpeed()
     {
-        yield return new WaitForSeconds(10);
-
         cinemachineBrain.m_DefaultBlend.m_Time = 0.3f;
     }
 }
